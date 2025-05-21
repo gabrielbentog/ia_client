@@ -1,37 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IA Client
 
-## Getting Started
+Este repositório contém o cliente frontend da aplicação IA (Inteligência Artificial), empacotado via Docker para facilitar o desenvolvimento e a implantação.
 
-First, run the development server:
+## Pré-requisitos
+
+- [Docker](https://www.docker.com/) instalado na máquina
+- Porta **8080** livre para exposição do container
+
+## Como usar com Docker
+
+1. **Build da imagem**
+
+   No diretório raiz do projeto, execute:
+
+   ```bash
+   docker build -t ia_client .
+   ```
+
+   Isso irá criar uma imagem Docker chamada `ia_client` com base no Dockerfile presente.
+
+2. **Execução do container**
+
+   Após a imagem ser construída, rode o container:
+
+   ```bash
+   docker run -d \
+     --name ia_client_container \
+     -p 8080:8080 \
+     ia_client
+   ```
+
+   - `-d` faz o container rodar em segundo plano (detached)
+   - `--name` atribui um nome amigável ao container
+   - `-p 8080:8080` mapeia a porta 8080 do host para a porta 8080 do container
+
+   ⚠️ **Atenção**: Se ao iniciar você notar que a aplicação só está disponível em `0.0.0.0` e não responde em `localhost`, provavelmente o serviço dentro do contêiner está ouvindo apenas em `127.0.0.1`.
+
+   Para garantir que o Next.js (ou seu servidor) ouça em todas as interfaces de rede, ajuste o comando de start no `Dockerfile` ou no `package.json`:
+
+   ```jsonc
+   // package.json
+   {
+     "scripts": {
+       "start": "next start -p 8080 -H 0.0.0.0"
+     }
+   }
+   ```
+
+   Ou, se preferir, defina a variável de ambiente `HOST`:
+
+   ```bash
+   docker run -d \
+     --name ia_client_container \
+     -e HOST=0.0.0.0 \
+     -p 8080:8080 \
+     ia_client
+   ```
+
+3. **Acessar a aplicação**
+
+   Abra seu navegador em:
+
+   ```
+   http://localhost:8080
+   ```
+
+## Variáveis de ambiente (opcional) (opcional)
+
+Se sua aplicação requer variáveis de ambiente, você pode passá-las através de um arquivo `.env` ou diretamente no comando `docker run`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker run -d --name ia_client_container \
+  -p 8080:8080 \
+  -e API_URL=https://api.exemplo.com \
+  ia_client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ou usando um `.env`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# .env
+API_URL=https://api.exemplo.com
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+docker run -d --name ia_client_container \
+  --env-file .env \
+  -p 8080:8080 \
+  ia_client
+```
 
-## Learn More
+## Contribuindo
 
-To learn more about Next.js, take a look at the following resources:
+1. Fork este repositório
+2. Crie uma branch com sua feature: `git checkout -b feature/nova-coisa`
+3. Commit suas alterações: `git commit -m "feat: descrição da feature"`
+4. Push na branch: `git push origin feature/nova-coisa`
+5. Abra um Pull Request
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ia_client
+Qualquer dúvida ou sugestão, fique à vontade para abrir uma issue ou entrar em contato com o time de desenvolvimento.
