@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -8,7 +9,7 @@ import {
 
 /* ─────────  MOCK  ───────── */
 const quiz = {
-  title: 'Nome do Quiz',
+  title: 'Literatura - Interpretação de Texto',
   questions: [
     {
       id: 1,
@@ -46,6 +47,8 @@ Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices maur
 /* ────────────────────────── */
 
 export default function QuizShowPage() {
+  const router = useRouter();
+  const { id } = useParams();            // pega [id] da rota
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(quiz.questions.length).fill(null),
@@ -55,11 +58,15 @@ export default function QuizShowPage() {
   const selected = answers[current];
 
   const handleSelect = (idx: number) =>
-    setAnswers((prev) =>
-      prev.map((val, i) => (i === current ? idx : val)),
-    );
+    setAnswers(prev => prev.map((v, i) => (i === current ? idx : v)));
 
-  const goto = (offset: number) => setCurrent((i) => i + offset);
+  const goto = (offset: number) => setCurrent(i => i + offset);
+
+  const handleFinish = () => {
+    // monta a query string com as respostas: "0,2,1"
+    const qs = answers.map(a => (a === null ? '' : a)).join(',');
+    router.push(`/quiz/${id}/resultados?answers=${encodeURIComponent(qs)}`);
+  };
 
   return (
     <>
@@ -107,6 +114,7 @@ export default function QuizShowPage() {
 
       {/* Navegação */}
       <div className="mt-12 flex justify-end gap-4">
+        {/* botão Voltar */}
         <button
           disabled={current === 0}
           onClick={() => goto(-1)}
@@ -116,6 +124,7 @@ export default function QuizShowPage() {
           Voltar
         </button>
 
+        {/* Avançar ou Finalizar */}
         {current < quiz.questions.length - 1 ? (
           <button
             disabled={selected === null}
@@ -128,13 +137,7 @@ export default function QuizShowPage() {
         ) : (
           <button
             disabled={selected === null}
-            onClick={() =>
-              alert(
-                `Respostas: ${answers
-                  .map((a) => (a !== null ? String.fromCharCode(65 + a) : '-'))
-                  .join(', ')}`,
-              )
-            }
+            onClick={handleFinish}
             className="flex items-center gap-1 rounded-full bg-[#18d38d] px-8 py-2 text-sm lg:text-base font-semibold text-white transition hover:brightness-110 disabled:opacity-40"
           >
             Finalizar

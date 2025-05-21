@@ -8,7 +8,7 @@ import {
 export default function Header() {
   return (
     <header className="bg-[#e9e8fd] text-[#110b3e]">
-      <div className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-4">
+      <div className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 px-8 py-4">
         {/* --- logo --- */}
         <Link
           href="/"
@@ -17,7 +17,7 @@ export default function Header() {
         </Link>
         {/* --- título central --- */}
         <nav className="justify-self-center">
-          <Link href="/" className="text-lg font-semibold">
+          <Link href="/" className="font-bold text-[28px] leading-none tracking-normal">
             Home
           </Link>
         </nav>

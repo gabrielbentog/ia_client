@@ -8,27 +8,22 @@ export const metadata: Metadata = {
 const exercises = [
   {
     id: 1,
-    title: 'Tema do Quiz',
+    title: 'Literatura - Interpretação de Texto',
     summary: 'Resumo sobre o tema do Quiz e como serão as perguntas',
   },
   {
     id: 2,
-    title: 'Tema do Quiz',
+    title: 'Literatura - Interpretação de Texto',
     summary: 'Resumo sobre o tema do Quiz e como serão as perguntas',
   },
   {
     id: 3,
-    title: 'Tema do Quiz',
+    title: 'Literatura - Interpretação de Texto',
     summary: 'Resumo sobre o tema do Quiz e como serão as perguntas',
   },
     {
     id: 4,
-    title: 'Tema do Quiz',
-    summary: 'Resumo sobre o tema do Quiz e como serão as perguntas',
-  },
-    {
-    id: 5,
-    title: 'Tema do Quiz',
+    title: 'Literatura - Interpretação de Texto',
     summary: 'Resumo sobre o tema do Quiz e como serão as perguntas',
   },
 ];
@@ -38,9 +33,9 @@ export default function ExercisesPage() {
     <section className="bg-[#26244a] px-4 pb-16 pt-10 text-[#d9d8f9]">
       {/* título + subtítulo */}
       <header className="mx-auto max-w-4xl">
-        <h1 className="text-3xl font-extrabold">Exercícios</h1>
+        <h1 className="text-4xl font-extrabold">Exercícios</h1>
         <hr className="my-2 border-[#7a799c]" />
-        <p className="text-sm">
+        <p className="text-sm lg:text-base leading-relaxed">
           Escolha um exercício e comece seu aprendizado.
         </p>
       </header>
